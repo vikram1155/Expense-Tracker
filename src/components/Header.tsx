@@ -1,127 +1,51 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
-import {
-  Drawer,
-  Box,
-  IconButton,
-  List,
-  ListItem,
-  ListItemText,
-  Typography,
-} from "@mui/material";
-import MenuIcon from "@mui/icons-material/Menu";
-import CloseIcon from "@mui/icons-material/Close";
+import { Drawer, Box, IconButton, Container } from "@mui/material";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import { useNavigate } from "react-router-dom";
+import theme from "../theme";
+import CustomTypography from "../customComponents/CustomTypography";
 
 const Header: React.FC = () => {
-  const [menuOpen, setMenuOpen] = useState(false);
-
-  const toggleMenu = () => {
-    setMenuOpen(!menuOpen);
-  };
-
-  const menuItems = [
-    { text: "My Expenses", path: "/expenses" },
-    { text: "Create an Expense", path: "/create-expense" },
-    { text: "Analysis", path: "/analysis" },
-    { text: "About Us", path: "/about" },
-  ];
-
+  const navigate = useNavigate();
   return (
-    <>
-      <Drawer
-        variant="permanent"
+    <Container
+      maxWidth={false}
+      sx={{
+        width: "100%",
+        backgroundColor: theme.palette.background.default,
+        position: "fixed",
+        top: 0,
+        zIndex: 100,
+      }}
+    >
+      <Box
         sx={{
-          "& .MuiDrawer-paper": {
-            bgcolor: "red",
-            color: "white",
-            height: "56px",
-            position: "fixed",
-            top: 0,
-            zIndex: 1200,
-            display: "flex",
-            alignItems: "center",
-            width: "100%",
-          },
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          py: 1,
+          // px: 3,
+          mx: "auto",
+          width: "100%",
+          maxWidth: { xs: "100%", sm: "90%", md: "900px", lg: "1000px" },
         }}
       >
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            width: "calc(100% - 40px)",
-            py: 1,
+        <CustomTypography
+          type="heading6"
+          onClick={() => {
+            navigate("/");
           }}
+          sx={{ cursor: "pointer" }}
         >
-          <Box sx={{ display: "flex", alignItems: "center" }}>
-            <IconButton
-              edge="start"
-              color="inherit"
-              onClick={toggleMenu}
-              sx={{ mr: 2 }}
-            >
-              {menuOpen ? <CloseIcon /> : <MenuIcon />}
-            </IconButton>
-            <Typography variant="h6" component="div">
-              Expense Tracker
-            </Typography>
-          </Box>
-          <IconButton color="inherit" sx={{ p: 0 }}>
-            <AccountCircleIcon />
-          </IconButton>
-        </Box>
-      </Drawer>
-      <Drawer
-        anchor="left"
-        open={menuOpen}
-        onClose={toggleMenu}
-        sx={{
-          "& .MuiDrawer-paper": {
-            width: { xs: "100%", sm: 250 },
-            bgcolor: "teal",
-            color: "white",
-          },
-        }}
-      >
-        <List>
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "flex-start",
-              pl: 2.5,
-            }}
-          >
-            <IconButton
-              edge="start"
-              color="inherit"
-              onClick={toggleMenu}
-              sx={{ mr: 1 }}
-            >
-              {menuOpen ? <CloseIcon /> : <MenuIcon />}
-            </IconButton>
-            <Typography variant="h6" component="div">
-              Expense Tracker
-            </Typography>
-          </Box>
-          <Box pl={2.5}>
-            {menuItems.map((item) => (
-              <ListItem
-                key={item.text}
-                component={Link}
-                to={item.path}
-                onClick={toggleMenu}
-                sx={{ color: "#fff", "&:hover": { bgcolor: "teal.700" } }}
-              >
-                <ListItemText primary={item.text} />
-              </ListItem>
-            ))}
-          </Box>
-        </List>
-      </Drawer>
-      <Box sx={{ mt: "64px" }} />
-    </>
+          Expense Tracker
+        </CustomTypography>
+        <IconButton
+          sx={{ p: 0, color: theme.palette.white }}
+          onClick={() => navigate("/profile")}
+        >
+          <AccountCircleIcon />
+        </IconButton>
+      </Box>
+    </Container>
   );
 };
 

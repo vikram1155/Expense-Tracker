@@ -1,4 +1,5 @@
 import { Button, ButtonProps, SxProps } from "@mui/material";
+import theme from "../theme";
 
 interface CustomButtonProps extends Omit<ButtonProps, "sx" | "onClick"> {
   text?: string;
@@ -20,21 +21,24 @@ const CustomButton: React.FC<CustomButtonProps> = ({
     <Button
       variant={variant}
       sx={{
-        px: 2,
-        py: 0.5,
+        px: 1.5,
+        py: "6.5px",
         borderRadius: 2,
-        transition: "transform 0.2s ease",
+        transition: "transform 0.4s ease",
         textTransform: "none",
-        // color: theme.palette.button.color,
-        // backgroundColor: theme.palette.button.background,
-        // borderColor: theme.palette.button.color,
-        fontWeight: 600,
+        color: theme.palette.button.text,
+        backgroundColor: theme.palette.button.background,
+        borderColor: theme.palette.button.border,
+        fontWeight: 400,
+        fontSize: "14px",
         height: "fit-content",
         ":hover": {
           transform: "scale(1.03)",
-          //   color: theme.palette.button.hoveredColor,
-          //   backgroundColor: theme.palette.button.hoveredBackground,
-          //   borderColor: theme.palette.button.hoveredBackground,
+        },
+        "&.Mui-disabled": {
+          borderColor: theme.palette.button.borderDisabled,
+          backgroundColor: theme.palette.button.backgroundDisabled,
+          color: theme.palette.button.textDisabled,
         },
         ...sx,
       }}

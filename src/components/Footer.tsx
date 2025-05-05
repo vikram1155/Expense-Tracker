@@ -1,6 +1,8 @@
-import { Box, Typography } from "@mui/material";
+import { Box } from "@mui/material";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import GitHubIcon from "@mui/icons-material/GitHub";
+import theme from "../theme";
+import CustomTypography from "../customComponents/CustomTypography";
 
 const Footer: React.FC = () => {
   return (
@@ -15,10 +17,9 @@ const Footer: React.FC = () => {
         bottom: "0",
         width: "100%",
         zIndex: 1201,
-        backgroundColor: "grey",
+        backgroundColor: theme.palette.background.default,
         textAlign: "center",
         flexDirection: "row",
-        boxShadow: `0px 10px 20px -2px red`,
       }}
     >
       <Box
@@ -28,17 +29,26 @@ const Footer: React.FC = () => {
           justifyContent: "center",
           width: "100%",
           gap: 1,
+          maxWidth: { xs: "100%", sm: "95%", md: "900px", lg: "1000px" },
         }}
       >
-        <Typography>Connect for more!</Typography>
+        <CustomTypography type="subText">Connect for more!</CustomTypography>
         <LinkedInIcon
-          sx={{ fontSize: "16px", cursor: "pointer" }}
+          sx={{
+            fontSize: "16px",
+            cursor: "pointer",
+            color: theme.palette.text.secondary,
+          }}
           onClick={() =>
             window.open("https://www.linkedin.com/in/vikram1155/", "_blank")
           }
         />
         <GitHubIcon
-          sx={{ fontSize: "16px", cursor: "pointer" }}
+          sx={{
+            fontSize: "16px",
+            cursor: "pointer",
+            color: theme.palette.text.secondary,
+          }}
           onClick={() =>
             window.open("https://github.com/vikram1155/", "_blank")
           }
