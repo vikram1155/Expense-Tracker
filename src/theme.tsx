@@ -96,10 +96,10 @@ const theme = createTheme({
       active: "#FFFFFF",
       inactive: "#888888",
     },
-    debit: {
+    credit: {
       main: "#4CAF50",
     },
-    credit: {
+   debit: {
       main: "#F44336",
     },
   },

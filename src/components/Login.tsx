@@ -8,6 +8,7 @@ import CustomTypography from "../customComponents/CustomTypography";
 import CustomButton from "../customComponents/CustomButton";
 import { showSnackbar } from "../redux/snackbarSlice";
 import theme from "../theme";
+import CryptoJS from "crypto-js";
 
 interface LoginData {
   email: string;
@@ -93,6 +94,9 @@ const Login: React.FC = () => {
     if (signupData.phone && !/^\+?[1-9]\d{1,14}$/.test(signupData.phone)) {
       newErrors.phone = "Invalid phone number";
     }
+    if (signupData.phone && signupData.phone.length !== 10) {
+      newErrors.phone = "Invalid phone number";
+    }
     if (signupData.dob && !/^\d{4}-\d{2}-\d{2}$/.test(signupData.dob)) {
       newErrors.dob = "Invalid date (YYYY-MM-DD)";
     }
@@ -104,22 +108,28 @@ const Login: React.FC = () => {
     setTimeout(() => {
       setApiState((prev) => ({ ...prev, loading: false }));
       navigate(path);
-    }, 1000); // 1-second delay
+      window.location.reload();
+    }, 1000);
+  };
+
+  // Hash password with SHA-256
+  const hashPassword = (password: string): string => {
+    return CryptoJS.SHA256(password).toString(CryptoJS.enc.Hex);
   };
 
   const handleLoginSubmit = async () => {
     if (validateLogin()) {
       setApiState({ loading: true, error: false, data: null });
       try {
+        const hashedPassword = hashPassword(loginData.password);
         const response = await axios.post(
           "http://localhost:3000/api/auth/login",
           {
             email: loginData.email,
-            password: loginData.password,
+            password: hashedPassword,
           }
         );
-        setApiState({ loading: true, error: false, data: response.data }); // Keep loading true for delay
-        console.log("Login successful:", response.data);
+        setApiState({ loading: true, error: false, data: response.data });
         localStorage.setItem("token", response.data.token);
         localStorage.setItem("user", JSON.stringify(response.data.user));
         dispatch(
@@ -148,18 +158,18 @@ const Login: React.FC = () => {
     if (validateSignup()) {
       setApiState({ loading: true, error: false, data: null });
       try {
+        const hashedPassword = hashPassword(signupData.password);
         const response = await axios.post(
           "http://localhost:3000/api/auth/signup",
           {
             name: signupData.name,
             email: signupData.email,
-            password: signupData.password,
+            password: hashedPassword,
             phone: signupData.phone || undefined,
             dob: signupData.dob || undefined,
           }
         );
-        setApiState({ loading: true, error: false, data: response.data }); // Keep loading true for delay
-        console.log("Signup successful:", response.data);
+        setApiState({ loading: true, error: false, data: response.data });
         localStorage.setItem("token", response.data.token);
         localStorage.setItem("user", JSON.stringify(response.data.user));
         dispatch(
@@ -235,7 +245,7 @@ const Login: React.FC = () => {
           sx={{
             textAlign: "center",
             mb: 3,
-            color: theme.palette.white,
+            是中国: theme.palette.white,
             fontWeight: 600,
           }}
         >

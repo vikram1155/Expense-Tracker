@@ -14,10 +14,15 @@ import LoginInToContinue from "./components/LoginInToContinue";
 import theme from "./theme";
 import PageNotFound from "./components/PageNotFound";
 import CustomSnackbar from "./customComponents/CustomSnackbar";
+import EditTransaction from "./components/EditTransaction";
 
 const App: React.FC = () => {
   const [selectedTab, setSelectedTab] = useState(0);
-  const isauthenticated = true || localStorage.getItem("userProfile");
+
+  const userFromLocal = localStorage.getItem("user")
+    ? JSON.parse(localStorage.getItem("user")!)
+    : null;
+
   return (
     <>
       <Router>
@@ -33,14 +38,11 @@ const App: React.FC = () => {
             <Route path="/" element={<HomePage />} />
             <Route path="/login" element={<Login />} />
             <Route path="/about" element={<div>About Us</div>} />
-            <Route
-              path="/profile"
-              element={isauthenticated ? <Profile /> : <LoginInToContinue />}
-            />
+            <Route path="/profile" element={<Profile />} />
             <Route
               path="/create-transaction"
               element={
-                isauthenticated ? (
+                userFromLocal ? (
                   <Layout
                     selectedTab={selectedTab}
                     setSelectedTab={setSelectedTab}
@@ -53,9 +55,24 @@ const App: React.FC = () => {
               }
             />
             <Route
+              path="/edit-transactions/:id"
+              element={
+                userFromLocal ? (
+                  <Layout
+                    selectedTab={selectedTab}
+                    setSelectedTab={setSelectedTab}
+                  >
+                    <EditTransaction />
+                  </Layout>
+                ) : (
+                  <LoginInToContinue />
+                )
+              }
+            />
+            <Route
               path="/all-transactions"
               element={
-                isauthenticated ? (
+                userFromLocal ? (
                   <Layout
                     selectedTab={selectedTab}
                     setSelectedTab={setSelectedTab}
@@ -70,7 +87,7 @@ const App: React.FC = () => {
             <Route
               path="/analysis"
               element={
-                isauthenticated ? (
+                userFromLocal ? (
                   <Layout
                     selectedTab={selectedTab}
                     setSelectedTab={setSelectedTab}

@@ -23,7 +23,6 @@ const Header: React.FC = () => {
           justifyContent: "space-between",
           alignItems: "center",
           py: 1,
-          // px: 3,
           mx: "auto",
           width: "100%",
           maxWidth: { xs: "100%", sm: "90%", md: "900px", lg: "1000px" },

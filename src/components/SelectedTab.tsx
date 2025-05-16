@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import {  Tabs, Tab, Container } from "@mui/material";
+import { Tabs, Tab, Container } from "@mui/material";
 import { useLocation, useNavigate } from "react-router-dom";
 import theme from "../theme";
 
@@ -14,7 +14,6 @@ const SelectedTab: React.FC<SelectedTabProps> = ({
 }) => {
   const navigate = useNavigate();
   const location = useLocation();
-  console.log("a-selectedTab", selectedTab);
 
   useEffect(() => {
     switch (location.pathname) {

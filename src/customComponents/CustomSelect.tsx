@@ -5,19 +5,16 @@ import {
   Select,
   MenuItem,
   SelectChangeEvent,
-  Box,
 } from "@mui/material";
 import theme from "../theme";
-// import { theme } from "../utils/theme";
 
-// Define props interface
 interface CustomSelectProps {
   label: string;
   name: string;
   value: string;
   onChange: (event: SelectChangeEvent<string>, name: string) => void;
   options: string[];
-  [key: string]: any; // For additional props passed to Select
+  [key: string]: any;
 }
 
 const CustomSelect: React.FC<CustomSelectProps> = ({
@@ -64,6 +61,10 @@ const CustomSelect: React.FC<CustomSelectProps> = ({
                   backgroundColor: theme.palette.background.default, // #1E1E1E
                   maxHeight: "210px",
                 },
+                "&.MuiMenu-paper": {
+                  backgroundColor: theme.palette.background.default,
+                  backgroundImage: "none",
+                },
               },
             },
           }}
@@ -94,10 +95,13 @@ const CustomSelect: React.FC<CustomSelectProps> = ({
               borderColor: theme.palette.white,
             },
             "&:hover .MuiOutlinedInput-notchedOutline": {
-              borderColor: "#FFFFFF", // White on hover
+              borderColor: "#FFFFFF",
             },
             "&.MuiList-root .MuiMenu-list": {
               p: 0,
+            },
+            "&.MuiMenu-paper": {
+              backgroundColor: theme.palette.background.default,
             },
           }}
         >

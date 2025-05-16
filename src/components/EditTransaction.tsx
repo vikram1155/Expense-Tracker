@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Box, SelectChangeEvent, CircularProgress } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import axios from "axios";
 import CustomButton from "../customComponents/CustomButton";
@@ -19,7 +19,8 @@ interface TransactionForm {
   comments: string;
 }
 
-const CreateTransactions: React.FC = () => {
+const EditTransaction: React.FC = () => {
+  const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [formData, setFormData] = useState<TransactionForm>({
@@ -34,7 +35,58 @@ const CreateTransactions: React.FC = () => {
   const [errors, setErrors] = useState<
     Partial<Record<keyof TransactionForm, string>>
   >({});
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [fetchError, setFetchError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchTransaction = async () => {
+      setLoading(true);
+      try {
+        const token = localStorage.getItem("token");
+        if (!token) {
+          throw new Error("No token found. Please log in.");
+        }
+        const response = await axios.get(
+          `http://localhost:3000/api/transactions/${id}`,
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
+        const t = response.data.transaction;
+        setFormData({
+          type: t.type.charAt(0).toUpperCase() + t.type.slice(1),
+          amount: t.amount,
+          name: t.name,
+          category: t.category,
+          date: t.date.split("T")[0], // Convert ISO date to YYYY-MM-DD
+          method: t.method,
+          comments: t.comments || "",
+        });
+      } catch (error: any) {
+        const errorMessage =
+          error.response?.data?.error ||
+          error.message ||
+          "Failed to fetch transaction";
+        setFetchError(errorMessage);
+        if (error.response?.status === 401 || error.response?.status === 403) {
+          localStorage.removeItem("token");
+          localStorage.removeItem("user");
+          dispatch(
+            showSnackbar({
+              message: "Session expired or unauthorized. Please log in again.",
+              severity: "error",
+            })
+          );
+          navigate("/");
+        } else {
+          dispatch(showSnackbar({ message: errorMessage, severity: "error" }));
+        }
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchTransaction();
+  }, [id, dispatch, navigate]);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -93,8 +145,8 @@ const CreateTransactions: React.FC = () => {
           throw new Error("No token found. Please log in.");
         }
 
-        const response = await axios.post(
-          "http://localhost:3000/api/transactions",
+        const response = await axios.put(
+          `http://localhost:3000/api/transactions/${id}`,
           {
             type: formData.type.toLowerCase() as "debit" | "credit",
             amount: formData.amount,
@@ -113,27 +165,16 @@ const CreateTransactions: React.FC = () => {
 
         dispatch(
           showSnackbar({
-            message: "Transaction created successfully",
+            message: "Transaction updated successfully",
             severity: "success",
           })
         );
-
-        setFormData({
-          type: "",
-          amount: 0,
-          name: "",
-          category: "",
-          date: "",
-          method: "",
-          comments: "",
-        });
-        setErrors({});
         navigate("/all-transactions");
       } catch (error: any) {
         const errorMessage =
           error.response?.data?.error ||
           error.message ||
-          "Failed to create transaction";
+          "Failed to update transaction";
         dispatch(
           showSnackbar({
             message: errorMessage,
@@ -146,18 +187,22 @@ const CreateTransactions: React.FC = () => {
     }
   };
 
-  const handleReset = () => {
-    setFormData({
-      type: "",
-      amount: 0,
-      name: "",
-      category: "",
-      date: "",
-      method: "",
-      comments: "",
-    });
-    setErrors({});
-  };
+  if (fetchError && !loading) {
+    return (
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          py: { xs: 2, sm: 3, md: 4 },
+        }}
+      >
+        <CustomTypography type="heading6" color={theme.palette.error.main}>
+          {fetchError}
+        </CustomTypography>
+      </Box>
+    );
+  }
 
   return (
     <Box
@@ -202,7 +247,7 @@ const CreateTransactions: React.FC = () => {
         )}
 
         <CustomTypography type="heading6" pb={3}>
-          Add your transactions - income, expense and more!
+          Edit Transaction
         </CustomTypography>
 
         <form onSubmit={handleSubmit}>
@@ -211,7 +256,7 @@ const CreateTransactions: React.FC = () => {
             setFormData={setFormData}
             errors={errors}
             loading={loading}
-            isEditable={false}
+            isEditable={true}
             handleChange={handleChange}
             handleSelectChange={handleSelectChange}
           />
@@ -219,13 +264,13 @@ const CreateTransactions: React.FC = () => {
             sx={{ display: "flex", gap: 2, mt: 2, justifyContent: "center" }}
           >
             <CustomButton
-              text="Reset Values"
-              onClick={handleReset}
+              text="Cancel"
+              onClick={() => navigate("/all-transactions")}
               disabled={loading}
             />
             <CustomButton
               type="submit"
-              text="Add Transaction"
+              text="Update Transaction"
               disabled={loading}
             />
           </Box>
@@ -235,4 +280,4 @@ const CreateTransactions: React.FC = () => {
   );
 };
 
-export default CreateTransactions;
+export default EditTransaction;
