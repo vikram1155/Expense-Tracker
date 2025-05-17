@@ -42,28 +42,32 @@ const HomePage: React.FC = () => {
           >
             Master Your Money Now
           </CustomTypography>
-          <CustomTypography type="subHeading">
-            Track expenses effortlessly. Categorize transactions instantly.
-            Analyze spending with clarity. Take charge of your finances!
-          </CustomTypography>
-          <Box sx={{ display: "flex", gap: 2 }}>
-            <CustomButton
-              text="Add Transaction"
-              onClick={() => navigate("/create-transaction")}
-            />
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              gap: 2,
+              alignItems: "center",
+            }}
+          >
+            <Box sx={{ display: "flex", gap: 2 }}>
+              <CustomButton
+                text="Add Transaction"
+                onClick={() => navigate("/create-transaction")}
+              />
 
+              <CustomButton
+                text="My Dashboard"
+                onClick={() => navigate("/analysis")}
+                sx={{ width: "131px" }}
+              />
+            </Box>
             <CustomButton
-              text="My Dashboard"
-              onClick={() => navigate("/analysis")}
+              text="Know more"
+              onClick={() => navigate("/know-more")}
               sx={{ width: "131px" }}
             />
           </Box>
-
-          <CustomButton
-            text="Know more"
-            onClick={() => navigate("/know-more")}
-            sx={{ width: "131px" }}
-          />
         </Box>
       </Box>
     </Box>

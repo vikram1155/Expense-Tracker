@@ -1,8 +1,9 @@
-import { Drawer, Box, IconButton, Container } from "@mui/material";
+import { Box, IconButton, Container } from "@mui/material";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { useNavigate } from "react-router-dom";
 import theme from "../theme";
 import CustomTypography from "../customComponents/CustomTypography";
+import Logo from "../assets/logo-white.svg";
 
 const Header: React.FC = () => {
   const navigate = useNavigate();
@@ -28,15 +29,42 @@ const Header: React.FC = () => {
           maxWidth: { xs: "100%", sm: "90%", md: "900px", lg: "1000px" },
         }}
       >
-        <CustomTypography
-          type="heading6"
-          onClick={() => {
-            navigate("/");
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "flex-start",
+            gap: 1,
           }}
-          sx={{ cursor: "pointer" }}
         >
-          ExpenseWise
-        </CustomTypography>
+          <Box
+            sx={{
+              margin: { xs: "0px", sm: "2px", md: "4px" },
+            }}
+          >
+            <img
+              src={Logo}
+              alt="ExpenseWise"
+              style={{
+                maxWidth: "20px",
+                cursor: "pointer",
+              }}
+              onClick={() => {
+                navigate("/");
+              }}
+            />
+          </Box>
+          <CustomTypography
+            type="heading6"
+            sx={{ cursor: "pointer" }}
+            onClick={() => {
+              navigate("/");
+            }}
+          >
+            ExpenseWise
+          </CustomTypography>
+        </Box>
+
         <IconButton
           sx={{ p: 0, color: theme.palette.white }}
           onClick={() => navigate("/profile")}
