@@ -41,7 +41,8 @@ const Analysis: React.FC = () => {
 
   // Fetch Transactions
   useEffect(() => {
-    const fetchTransactions = async () => {2
+    const fetchTransactions = async () => {
+      2;
       setLoading(true);
       try {
         const token = localStorage.getItem("token");
@@ -49,7 +50,9 @@ const Analysis: React.FC = () => {
           throw new Error("No token found. Please log in.");
         }
         const response = await axios.get(
-          "http://localhost:3000/api/transactions",
+          `${
+            process.env.REACT_APP_API_URL || "http://localhost:8000"
+          }/api/transactions`,
           {
             headers: { Authorization: `Bearer ${token}` },
           }

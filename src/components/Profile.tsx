@@ -132,7 +132,9 @@ const Profile: React.FC = () => {
       try {
         const token = localStorage.getItem("token");
         const response = await axios.post(
-          "http://localhost:3000/api/auth/edit-profile",
+          `${
+            process.env.REACT_APP_API_URL || "http://localhost:8000"
+          }/api/auth/edit-profile`,
           {
             name: formData.name,
             phone: formData.phone || null,
@@ -186,7 +188,9 @@ const Profile: React.FC = () => {
         ).toString(CryptoJS.enc.Hex);
 
         const response = await axios.post(
-          "http://localhost:3000/api/auth/change-password",
+          `${
+            process.env.REACT_APP_API_URL || "http://localhost:8000"
+          }/api/auth/change-password`,
           {
             currentPassword: hashedCurrentPassword,
             newPassword: hashedNewPassword,
@@ -225,55 +229,10 @@ const Profile: React.FC = () => {
     }
   };
 
-  // const handlePasswordSave = async () => {
-  //   if (validatePasswordForm()) {
-  //     setApiState({ loading: true, error: false, data: null });
-  //     try {
-  //       const token = localStorage.getItem("token");
-  //       const response = await axios.post(
-  //         "http://localhost:3000/api/auth/change-password",
-  //         {
-  //           currentPassword: passwordData.currentPassword,
-  //           newPassword: passwordData.newPassword,
-  //           confirmPassword: passwordData.confirmPassword,
-  //         },
-  //         {
-  //           headers: {
-  //             Authorization: `Bearer ${token}`,
-  //           },
-  //         }
-  //       );
-  //       setApiState({ loading: false, error: false, data: response.data });
-  //       setPasswordData({
-  //         currentPassword: "",
-  //         newPassword: "",
-  //         confirmPassword: "",
-  //       });
-  //       setShowPasswordForm(false);
-  //       dispatch(
-  //         showSnackbar({
-  //           message: "Password updated successfully",
-  //           severity: "success",
-  //         })
-  //       );
-  //     } catch (error: any) {
-  //       const errorMessage =
-  //         error.response?.data?.error || "Something failed, try again later";
-  //       setApiState({ loading: false, error: errorMessage, data: null });
-  //       dispatch(
-  //         showSnackbar({
-  //           message: errorMessage,
-  //           severity: "error",
-  //         })
-  //       );
-  //     }
-  //   }
-  // };
-
   const handleLogout = () => {
     localStorage.removeItem("user");
     localStorage.removeItem("token");
-    localStorage.removeItem("userProfile"); // Kept for backward compatibility
+    localStorage.removeItem("userProfile");
     window.location.assign("/");
   };
 

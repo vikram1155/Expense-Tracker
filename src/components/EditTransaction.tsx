@@ -47,7 +47,7 @@ const EditTransaction: React.FC = () => {
           throw new Error("No token found. Please log in.");
         }
         const response = await axios.get(
-          `http://localhost:3000/api/transactions/${id}`,
+          `${process.env.REACT_APP_API_URL || "http://localhost:8000"}/api/transactions/${id}`,
           {
             headers: { Authorization: `Bearer ${token}` },
           }
@@ -146,7 +146,7 @@ const EditTransaction: React.FC = () => {
         }
 
         const response = await axios.put(
-          `http://localhost:3000/api/transactions/${id}`,
+          `${process.env.REACT_APP_API_URL || "http://localhost:8000"}/api/transactions/${id}`,
           {
             type: formData.type.toLowerCase() as "debit" | "credit",
             amount: formData.amount,

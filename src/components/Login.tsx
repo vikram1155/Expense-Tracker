@@ -123,7 +123,7 @@ const Login: React.FC = () => {
       try {
         const hashedPassword = hashPassword(loginData.password);
         const response = await axios.post(
-          "http://localhost:3000/api/auth/login",
+          `${process.env.REACT_APP_API_URL || "http://localhost:8000"}/api/auth/login`,
           {
             email: loginData.email,
             password: hashedPassword,
@@ -160,7 +160,7 @@ const Login: React.FC = () => {
       try {
         const hashedPassword = hashPassword(signupData.password);
         const response = await axios.post(
-          "http://localhost:3000/api/auth/signup",
+          `${process.env.REACT_APP_API_URL || "http://localhost:8000"}/api/auth/signup`,
           {
             name: signupData.name,
             email: signupData.email,

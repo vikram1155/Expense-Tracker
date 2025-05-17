@@ -94,7 +94,7 @@ const CreateTransactions: React.FC = () => {
         }
 
         const response = await axios.post(
-          "http://localhost:3000/api/transactions",
+          `${process.env.REACT_APP_API_URL || "http://localhost:8000"}/api/transactions`,
           {
             type: formData.type.toLowerCase() as "debit" | "credit",
             amount: formData.amount,
