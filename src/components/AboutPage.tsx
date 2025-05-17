@@ -39,7 +39,7 @@ const AboutPage: React.FC = () => {
               fontSize: { xs: "2rem", sm: "2.5rem", md: "3rem" },
             }}
           >
-            Discover ExpenseWise
+            Discover Spend Smarter
           </CustomTypography>
           <CustomTypography
             type="body"
@@ -49,9 +49,9 @@ const AboutPage: React.FC = () => {
               color: theme.palette.text.secondary,
             }}
           >
-            ExpenseWise helps you take control of your finances with powerful
-            tracking, insightful visualizations, and secure user management.
-            Monitor your expenses and income effortlessly.
+            Spend Smarter App helps you take control of your finances with
+            powerful tracking, insightful visualizations, and secure user
+            management. Monitor your expenses and income effortlessly.
           </CustomTypography>
         </Box>
 

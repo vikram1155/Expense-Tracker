@@ -44,7 +44,7 @@ const Header: React.FC = () => {
           >
             <img
               src={Logo}
-              alt="ExpenseWise"
+              alt="Spend Smarter"
               style={{
                 maxWidth: "20px",
                 cursor: "pointer",
@@ -61,7 +61,7 @@ const Header: React.FC = () => {
               navigate("/");
             }}
           >
-            ExpenseWise
+            Spend Smarter
           </CustomTypography>
         </Box>
 
