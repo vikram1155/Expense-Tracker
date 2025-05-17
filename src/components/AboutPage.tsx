@@ -30,6 +30,7 @@ const AboutPage: React.FC = () => {
             mx: "auto",
             textAlign: "center",
             mb: { xs: 6, sm: 8 },
+            mt: { xs: 2, sm: 3 },
           }}
         >
           <CustomTypography
