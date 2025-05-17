@@ -94,7 +94,9 @@ const CreateTransactions: React.FC = () => {
         }
 
         const response = await axios.post(
-          `${process.env.REACT_APP_API_URL || "http://localhost:8000"}/api/transactions`,
+          `${
+            process.env.REACT_APP_API_URL || "http://localhost:8000"
+          }/api/transactions`,
           {
             type: formData.type.toLowerCase() as "debit" | "credit",
             amount: formData.amount,
@@ -110,25 +112,26 @@ const CreateTransactions: React.FC = () => {
             },
           }
         );
+        if (response) {
+          dispatch(
+            showSnackbar({
+              message: "Transaction created successfully",
+              severity: "success",
+            })
+          );
 
-        dispatch(
-          showSnackbar({
-            message: "Transaction created successfully",
-            severity: "success",
-          })
-        );
-
-        setFormData({
-          type: "",
-          amount: 0,
-          name: "",
-          category: "",
-          date: "",
-          method: "",
-          comments: "",
-        });
-        setErrors({});
-        navigate("/all-transactions");
+          setFormData({
+            type: "",
+            amount: 0,
+            name: "",
+            category: "",
+            date: "",
+            method: "",
+            comments: "",
+          });
+          setErrors({});
+          navigate("/all-transactions");
+        }
       } catch (error: any) {
         const errorMessage =
           error.response?.data?.error ||
