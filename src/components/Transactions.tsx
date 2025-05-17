@@ -118,7 +118,7 @@ const Transactions: React.FC = () => {
         throw new Error("No token found. Please log in.");
       }
       const response = await axios.get(
-        `${process.env.REACT_APP_API_URL || "http://localhost:8000"}/api/transactions`,
+        `${import.meta.env.VITE_API_URL}/api/transactions`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -176,7 +176,7 @@ const Transactions: React.FC = () => {
         throw new Error("No token found. Please log in.");
       }
       const response = await axios.get(
-        `${process.env.REACT_APP_API_URL || "http://localhost:8000"}/api/transactions/${id}`,
+        `${import.meta.env.VITE_API_URL}/api/transactions/${id}`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -222,7 +222,7 @@ const Transactions: React.FC = () => {
       if (!token) {
         throw new Error("No token found. Please log in.");
       }
-      await axios.delete(`${process.env.REACT_APP_API_URL || "http://localhost:8000"}/api/transactions/${id}`, {
+      await axios.delete(`${import.meta.env.VITE_API_URL}/api/transactions/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setTransactions((prev) => prev.filter((t) => t.id !== id));
@@ -334,7 +334,7 @@ const Transactions: React.FC = () => {
         }
 
         const response = await axios.put(
-          `${process.env.REACT_APP_API_URL || "http://localhost:8000"}/api/transactions/${selectedTransactionId}`,
+          `${import.meta.env.VITE_API_URL}/api/transactions/${selectedTransactionId}`,
           {
             type: formData.type.toLowerCase() as "debit" | "credit",
             amount: formData.amount,

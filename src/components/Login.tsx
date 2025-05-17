@@ -116,6 +116,7 @@ const Login: React.FC = () => {
   const hashPassword = (password: string): string => {
     return CryptoJS.SHA256(password).toString(CryptoJS.enc.Hex);
   };
+  console.log("a-process.env.VITE_API_URL", import.meta.env.VITE_API_URL);
 
   const handleLoginSubmit = async () => {
     if (validateLogin()) {
@@ -123,7 +124,7 @@ const Login: React.FC = () => {
       try {
         const hashedPassword = hashPassword(loginData.password);
         const response = await axios.post(
-          `${process.env.REACT_APP_API_URL || "http://localhost:8000"}/api/auth/login`,
+          `${import.meta.env.VITE_API_URL}/api/auth/login`,
           {
             email: loginData.email,
             password: hashedPassword,
@@ -160,7 +161,7 @@ const Login: React.FC = () => {
       try {
         const hashedPassword = hashPassword(signupData.password);
         const response = await axios.post(
-          `${process.env.REACT_APP_API_URL || "http://localhost:8000"}/api/auth/signup`,
+          `${import.meta.env.VITE_API_URL}/api/auth/signup`,
           {
             name: signupData.name,
             email: signupData.email,

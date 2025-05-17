@@ -133,7 +133,7 @@ const Profile: React.FC = () => {
         const token = localStorage.getItem("token");
         const response = await axios.post(
           `${
-            process.env.REACT_APP_API_URL || "http://localhost:8000"
+            import.meta.env.VITE_API_URL
           }/api/auth/edit-profile`,
           {
             name: formData.name,
@@ -189,7 +189,7 @@ const Profile: React.FC = () => {
 
         const response = await axios.post(
           `${
-            process.env.REACT_APP_API_URL || "http://localhost:8000"
+            import.meta.env.VITE_API_URL
           }/api/auth/change-password`,
           {
             currentPassword: hashedCurrentPassword,
