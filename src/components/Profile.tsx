@@ -10,6 +10,7 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { showSnackbar } from "../redux/snackbarSlice";
 import theme from "../theme";
 import LoginInToContinue from "./LoginInToContinue";
+import CryptoJS from "crypto-js";
 
 interface UserProfile {
   name: string;
@@ -173,12 +174,23 @@ const Profile: React.FC = () => {
       setApiState({ loading: true, error: false, data: null });
       try {
         const token = localStorage.getItem("token");
+        // Hash passwords with SHA-256
+        const hashedCurrentPassword = CryptoJS.SHA256(
+          passwordData.currentPassword
+        ).toString(CryptoJS.enc.Hex);
+        const hashedNewPassword = CryptoJS.SHA256(
+          passwordData.newPassword
+        ).toString(CryptoJS.enc.Hex);
+        const hashedConfirmPassword = CryptoJS.SHA256(
+          passwordData.confirmPassword
+        ).toString(CryptoJS.enc.Hex);
+
         const response = await axios.post(
           "http://localhost:3000/api/auth/change-password",
           {
-            currentPassword: passwordData.currentPassword,
-            newPassword: passwordData.newPassword,
-            confirmPassword: passwordData.confirmPassword,
+            currentPassword: hashedCurrentPassword,
+            newPassword: hashedNewPassword,
+            confirmPassword: hashedConfirmPassword,
           },
           {
             headers: {
@@ -212,6 +224,51 @@ const Profile: React.FC = () => {
       }
     }
   };
+
+  // const handlePasswordSave = async () => {
+  //   if (validatePasswordForm()) {
+  //     setApiState({ loading: true, error: false, data: null });
+  //     try {
+  //       const token = localStorage.getItem("token");
+  //       const response = await axios.post(
+  //         "http://localhost:3000/api/auth/change-password",
+  //         {
+  //           currentPassword: passwordData.currentPassword,
+  //           newPassword: passwordData.newPassword,
+  //           confirmPassword: passwordData.confirmPassword,
+  //         },
+  //         {
+  //           headers: {
+  //             Authorization: `Bearer ${token}`,
+  //           },
+  //         }
+  //       );
+  //       setApiState({ loading: false, error: false, data: response.data });
+  //       setPasswordData({
+  //         currentPassword: "",
+  //         newPassword: "",
+  //         confirmPassword: "",
+  //       });
+  //       setShowPasswordForm(false);
+  //       dispatch(
+  //         showSnackbar({
+  //           message: "Password updated successfully",
+  //           severity: "success",
+  //         })
+  //       );
+  //     } catch (error: any) {
+  //       const errorMessage =
+  //         error.response?.data?.error || "Something failed, try again later";
+  //       setApiState({ loading: false, error: errorMessage, data: null });
+  //       dispatch(
+  //         showSnackbar({
+  //           message: errorMessage,
+  //           severity: "error",
+  //         })
+  //       );
+  //     }
+  //   }
+  // };
 
   const handleLogout = () => {
     localStorage.removeItem("user");
@@ -533,8 +590,8 @@ const Profile: React.FC = () => {
                   onClick={handleLogout}
                   sx={{
                     borderRadius: "8px",
-                    borderColor: theme.palette.credit.main,
-                    color: theme.palette.credit.main,
+                    borderColor: theme.palette.debit.main,
+                    color: theme.palette.debit.main,
                   }}
                 />
               </Box>
@@ -679,7 +736,7 @@ const Profile: React.FC = () => {
             <Box sx={{ display: "flex", justifyContent: "center", mt: 5 }}>
               <CustomButton
                 text="Go to My Dashboard"
-                onClick={() => navigate("/all-transactions")}
+                onClick={() => navigate("/analysis")}
               />
             </Box>
           </Box>

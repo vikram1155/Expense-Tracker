@@ -35,7 +35,7 @@ const Header: React.FC = () => {
           }}
           sx={{ cursor: "pointer" }}
         >
-          Expense Tracker
+          ExpenseWise
         </CustomTypography>
         <IconButton
           sx={{ p: 0, color: theme.palette.white }}

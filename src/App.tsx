@@ -1,4 +1,9 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
 import { Box } from "@mui/material";
 import Header from "./components/Header";
 import HomePage from "./components/HomePage";
@@ -15,6 +20,7 @@ import theme from "./theme";
 import PageNotFound from "./components/PageNotFound";
 import CustomSnackbar from "./customComponents/CustomSnackbar";
 import EditTransaction from "./components/EditTransaction";
+import AboutPage from "./components/AboutPage";
 
 const App: React.FC = () => {
   const [selectedTab, setSelectedTab] = useState(0);
@@ -36,8 +42,11 @@ const App: React.FC = () => {
           <Header />
           <Routes>
             <Route path="/" element={<HomePage />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/about" element={<div>About Us</div>} />
+            <Route
+              path="/login"
+              element={!userFromLocal ? <Login /> : <Navigate to="/" />}
+            />
+            <Route path="/know-more" element={<AboutPage />} />
             <Route path="/profile" element={<Profile />} />
             <Route
               path="/create-transaction"

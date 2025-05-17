@@ -46,9 +46,23 @@ const HomePage: React.FC = () => {
             Track expenses effortlessly. Categorize transactions instantly.
             Analyze spending with clarity. Take charge of your finances!
           </CustomTypography>
+          <Box sx={{ display: "flex", gap: 2 }}>
+            <CustomButton
+              text="Add Transaction"
+              onClick={() => navigate("/create-transaction")}
+            />
+
+            <CustomButton
+              text="My Dashboard"
+              onClick={() => navigate("/analysis")}
+              sx={{ width: "131px" }}
+            />
+          </Box>
+
           <CustomButton
-            text="Add Transaction"
-            onClick={() => navigate("/create-transaction")}
+            text="Know more"
+            onClick={() => navigate("/know-more")}
+            sx={{ width: "131px" }}
           />
         </Box>
       </Box>

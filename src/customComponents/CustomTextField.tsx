@@ -74,8 +74,8 @@ const CustomTextField: React.FC<CustomTextFieldProps> = ({
           color: "#000 !important",
         },
         "&.MuiInputAdornment-root .MuiSvgIcon-root": {
-          color: theme.palette.white,  (red for calendar icon)
-          fillOpacity: theme.palette.white,  (red for calendar icon)
+          color: theme.palette.white,
+          fillOpacity: theme.palette.white,
         },
         "& .MuiOutlinedInput-root": {
           p: 0,
